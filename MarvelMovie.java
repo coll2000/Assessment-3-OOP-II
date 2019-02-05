@@ -22,6 +22,7 @@ public class MarvelMovie {
     static String currentQuestion = null;
 
     public static void main(String[] args){
+        Boolean goAgain = true;
 //        nextNode = tree;
 //        String question = tree.value;
 //
@@ -38,67 +39,45 @@ public class MarvelMovie {
 //        }
 
         String firstQuestion = captains.value;
-        Boolean goAgain = true;
-
-
         currentNode = captains;
-
-        while(!currentNode.isLeaf() & goAgain){
-            if(askYesNo(firstQuestion)){
-                currentQuestion = captains.left.value;
+        do{
+            currentQuestion = firstQuestion;
+            if(askYesNo(currentQuestion)){
+                currentQuestion = currentNode.left.value;
                 if(askYesNo(currentQuestion)){
-                    currentNode = captains.left.left;
+                    currentNode = currentNode.left.left;
                     System.out.println(currentNode.value);
                     if(currentNode.isLeaf()){
                         System.out.println("Would you like to play again? [y/N]");
                         String again = new Scanner(System.in).nextLine();
-                        if(again.equals("y")){
-                            goAgain = true;
-                        } else {
+                        if(again.equals("n")){
                             goAgain = false;
                         }
-                        if(!goAgain)
-                            break;
-
                     }
 
                 } else {
-                    currentNode = captains.left.right;
+                    currentNode = currentNode.left.right;
                     System.out.println(currentNode.value);
                     if(currentNode.isLeaf()){
                         System.out.println("Would you like to play again? [y/N]");
                         String again = new Scanner(System.in).nextLine();
-                        if(again.equals("y")){
-                            goAgain = true;
-                        } else {
+                        if(again.equals("n")){
                             goAgain = false;
                         }
-                        if(!goAgain)
-                            break;
-
                     }
                 }
             } else {
-                currentNode = captains.right;
+                currentNode = currentNode.right;
                 System.out.println(currentNode.value);
                 if(currentNode.isLeaf()){
                     System.out.println("Would you like to play again? [y/N]");
                     String again = new Scanner(System.in).nextLine();
-                    if(again.equals("y")){
-                        goAgain = true;
-                    } else {
+                    if(again.equals("n")){
                         goAgain = false;
                     }
-
-                    if(!goAgain)
-                        break;
-
                 }
             }
-        }
-
-
-
+        }while(goAgain);
 
     }
 
@@ -132,4 +111,10 @@ public class MarvelMovie {
 //            return false;
 //        }
     }
+
+    static void ifNodeIsLeaf(){
+
+    }
+
+
 }
