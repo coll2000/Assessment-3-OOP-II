@@ -1,0 +1,69 @@
+do {
+            String firstQuestion = captains.getValue(), currentQuestion, result;
+
+            currentNode = captains;
+
+            if (askYesNo(firstQuestion)) {
+                //branch to the left side of the tree
+                //TODO
+                branchToLeft(currentNode);
+                currentQuestion = currentNode.value;
+                if (askYesNo(currentQuestion)) {
+                    //branch to the left-left side of the tree
+                    currentNode = currentNode.left;
+                    result = currentNode.value;
+
+                    currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
+                    if(!askYesNo(currentQuestion)){
+                        String suggestion = new Scanner(System.in).nextLine();
+                        currentNode.value = suggestion;
+                    }
+                    if(currentNode.isLeaf()){
+                        System.out.println("Would you like to go again? [y/N]");
+
+                        String answer = new Scanner(System.in).nextLine();
+
+                        if(!answer.equals("y")){
+                            goAgain = false;
+                        }
+                    }
+
+                } else {
+                    //ask for suggestion
+                    currentNode = currentNode.right;
+                    result = currentNode.value;
+
+                    currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
+                    if(!askYesNo(currentQuestion)){
+                        String suggestion = new Scanner(System.in).nextLine();
+                        currentNode.value = suggestion;
+                    }
+
+                    if(currentNode.isLeaf()){
+                        System.out.println("Would you like to go again? [y/N]");
+                        String answer = new Scanner(System.in).nextLine();
+                        if(!answer.equals("y")){
+                            goAgain = false;
+                        }
+                    }
+
+                }
+            } else {
+                //branch to the right side of the tree
+                branchToRight(currentNode);
+
+                currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
+                if(!askYesNo(currentQuestion)){
+                    String suggestion = new Scanner(System.in).nextLine();
+                    currentNode.value = suggestion;
+                }
+
+                if(currentNode.isLeaf()){
+                    System.out.println("Would you like to go again? [y/N]");
+                    String answer = new Scanner(System.in).nextLine();
+                    if(!answer.equals("y")){
+                        goAgain = false;
+                    }
+                }
+            }
+        }while (goAgain);
