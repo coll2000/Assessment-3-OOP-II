@@ -15,69 +15,87 @@ public class MarvelMovie {
     static TreeNode captainsT = new TreeNode("Would you like a captain who's better than superman?", marvel, america);
     static TreeNode captains = new TreeNode("Do you like captains?", captainsT, captainsF);
 
-
-
     static TreeNode currentNode = null;
 
-    static String currentQuestion = null;
+
 
     public static void main(String[] args){
-        Boolean goAgain = true;
-//        nextNode = tree;
-//        String question = tree.value;
-//
-//        if(askYesNo(question)){
-//            question = tree.left.value;
-//            if(askYesNo(question)){
-//                System.out.println("wporkingish");
-//            }
-//        } else {
-//            question = tree.getRight().value;
-//            if(askYesNo(question)){
-//                System.out.println("working ish");
-//            }
-//        }
 
-        String firstQuestion = captains.value;
-        currentNode = captains;
-        do{
-            currentQuestion = firstQuestion;
-            if(askYesNo(currentQuestion)){
-                currentQuestion = currentNode.left.value;
-                if(askYesNo(currentQuestion)){
-                    currentNode = currentNode.left.left;
-                    System.out.println(currentNode.value);
+        System.out.println("Welcome to the Marvel Movie Selector");
+        Boolean goAgain = true;
+
+
+        do {
+            String firstQuestion = captains.getValue(), currentQuestion, result;
+
+            currentNode = captains;
+
+            if (askYesNo(firstQuestion)) {
+                //branch to the left side of the tree
+                //TODO
+                currentNode = currentNode.left;
+                currentQuestion = currentNode.value;
+                if (askYesNo(currentQuestion)) {
+                    //branch to the left-left side of the tree
+                    currentNode = currentNode.left;
+                    result = currentNode.value;
+
+                    currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
+                    if(!askYesNo(currentQuestion)){
+                        String suggestion = new Scanner(System.in).nextLine();
+                        currentNode.value = suggestion;
+                    }
                     if(currentNode.isLeaf()){
-                        System.out.println("Would you like to play again? [y/N]");
-                        String again = new Scanner(System.in).nextLine();
-                        if(again.equals("n")){
+                        System.out.println("Would you like to go again? [y/N]");
+
+                        String answer = new Scanner(System.in).nextLine();
+
+                        if(!answer.equals("y")){
                             goAgain = false;
                         }
                     }
 
                 } else {
-                    currentNode = currentNode.left.right;
-                    System.out.println(currentNode.value);
+                    //ask for suggestion
+                    currentNode = currentNode.right;
+                    result = currentNode.value;
+
+                    currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
+                    if(!askYesNo(currentQuestion)){
+                        String suggestion = new Scanner(System.in).nextLine();
+                        currentNode.value = suggestion;
+                    }
+
                     if(currentNode.isLeaf()){
-                        System.out.println("Would you like to play again? [y/N]");
-                        String again = new Scanner(System.in).nextLine();
-                        if(again.equals("n")){
+                        System.out.println("Would you like to go again? [y/N]");
+                        String answer = new Scanner(System.in).nextLine();
+                        if(!answer.equals("y")){
                             goAgain = false;
                         }
                     }
+
                 }
             } else {
+                //branch to the right side of the tree
                 currentNode = currentNode.right;
-                System.out.println(currentNode.value);
+                result = currentNode.value;
+
+                currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
+                if(!askYesNo(currentQuestion)){
+                    String suggestion = new Scanner(System.in).nextLine();
+                    currentNode.value = suggestion;
+                }
+
                 if(currentNode.isLeaf()){
-                    System.out.println("Would you like to play again? [y/N]");
-                    String again = new Scanner(System.in).nextLine();
-                    if(again.equals("n")){
+                    System.out.println("Would you like to go again? [y/N]");
+                    String answer = new Scanner(System.in).nextLine();
+                    if(!answer.equals("y")){
                         goAgain = false;
                     }
                 }
             }
-        }while(goAgain);
+        }while (goAgain);
+
 
     }
 
@@ -111,10 +129,4 @@ public class MarvelMovie {
 //            return false;
 //        }
     }
-
-    static void ifNodeIsLeaf(){
-
-    }
-
-
 }
