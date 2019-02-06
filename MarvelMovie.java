@@ -1,3 +1,5 @@
+package Ass3;
+
 import java.util.Scanner;
 
 public class MarvelMovie {
@@ -16,85 +18,32 @@ public class MarvelMovie {
     static TreeNode captains = new TreeNode("Do you like captains?", captainsT, captainsF);
 
     static TreeNode currentNode = null;
+    static String questionOrAnswer;
+    static boolean goAgain = true;
 
 
 
     public static void main(String[] args){
-
         System.out.println("Welcome to the Marvel Movie Selector");
-        Boolean goAgain = true;
 
+        currentNode = captains;
+        questionOrAnswer = currentNode.value;
 
-        do {
-            String firstQuestion = captains.getValue(), currentQuestion, result;
-
-            currentNode = captains;
-
-            if (askYesNo(firstQuestion)) {
+        do{
+            //the value of questionOrAnswer will change depending if the current node is a leaf or not
+            if(askYesNo(questionOrAnswer)){
                 //branch to the left side of the tree
-                //TODO
-                currentNode = currentNode.left;
-                currentQuestion = currentNode.value;
-                if (askYesNo(currentQuestion)) {
-                    //branch to the left-left side of the tree
-                    currentNode = currentNode.left;
-                    result = currentNode.value;
-
-                    currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
-                    if(!askYesNo(currentQuestion)){
-                        String suggestion = new Scanner(System.in).nextLine();
-                        currentNode.value = suggestion;
-                    }
-                    if(currentNode.isLeaf()){
-                        System.out.println("Would you like to go again? [y/N]");
-
-                        String answer = new Scanner(System.in).nextLine();
-
-                        if(!answer.equals("y")){
-                            goAgain = false;
-                        }
-                    }
-
-                } else {
-                    //ask for suggestion
-                    currentNode = currentNode.right;
-                    result = currentNode.value;
-
-                    currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
-                    if(!askYesNo(currentQuestion)){
-                        String suggestion = new Scanner(System.in).nextLine();
-                        currentNode.value = suggestion;
-                    }
-
-                    if(currentNode.isLeaf()){
-                        System.out.println("Would you like to go again? [y/N]");
-                        String answer = new Scanner(System.in).nextLine();
-                        if(!answer.equals("y")){
-                            goAgain = false;
-                        }
-                    }
-
-                }
+                branchToLeft();
+                //check if the node is a lesf
+                //if its a leaf, call the method askAgain
             } else {
                 //branch to the right side of the tree
-                currentNode = currentNode.right;
-                result = currentNode.value;
-
-                currentQuestion = "Perhaps you would like: "+ result + ". Is this satisfactory?";
-                if(!askYesNo(currentQuestion)){
-                    String suggestion = new Scanner(System.in).nextLine();
-                    currentNode.value = suggestion;
-                }
-
-                if(currentNode.isLeaf()){
-                    System.out.println("Would you like to go again? [y/N]");
-                    String answer = new Scanner(System.in).nextLine();
-                    if(!answer.equals("y")){
-                        goAgain = false;
-                    }
-                }
+                branchToRight();
+                //check if the current node is a leaf
+                //if its a leaf, call the method askAgain
             }
-        }while (goAgain);
+        }while(goAgain);
+
 
 
     }
@@ -112,21 +61,47 @@ public class MarvelMovie {
         } else {
             return false;
         }
+    }
 
+    public static void branchToLeft(){
+        currentNode = currentNode.left;
+        questionOrAnswer = currentNode.value;
+        if(currentNode.isLeaf()){
+            System.out.println(questionOrAnswer);
+            askAgain();
+        }
+    }
 
-//        nextNode = tree;
-//        TreeNode nextQuestionNode;
-//
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.println(nextNode.value + " [y/N]");
-//        String input = scanner.nextLine();
-//        if(input.equals("y")){
-//            nextQuestionNode = nextNode.getLeft();
-//            return true;
-//        } else{
-//            nextQuestionNode = nextNode.getRight();
-//            return false;
-//        }
+    public static void askAgain(){
+        System.out.println("That is the end of the quiz! Would you like to go again? [y/N]");
+        String answer = new Scanner(System.in).nextLine();
+        if(!answer.equals("y")){
+            goAgain = false;
+        } else {
+            currentNode = captains;
+            questionOrAnswer = currentNode.value;
+        }
+    }
+
+    public static void branchToRight(){
+        currentNode = currentNode.right;
+        questionOrAnswer = currentNode.value;
+        if(currentNode.isLeaf()){
+            System.out.println(questionOrAnswer);
+            askAgain();
+        }
+    }
+
+    public static void askForSuggestion(String current, String suggestion, String question, TreeNode currentNode){
+        if(askYesNo("Maybe you would enjoy: " + current + ". Is this satisfactory?")){
+            System.out.println("Suggestion: ");
+            suggestion = new Scanner(System.in).nextLine();
+
+            System.out.println("Question for Suggestion: ");
+            question = new Scanner(System.in).nextLine();
+
+            currentNode.value = question;
+            currentNode.left.setValue(suggestion);
+        }
     }
 }
