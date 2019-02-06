@@ -68,7 +68,12 @@ public class MarvelMovie {
         questionOrAnswer = currentNode.value;
         if(currentNode.isLeaf()){
             System.out.println(questionOrAnswer);
-            askAgain();
+            if(wantsSuggestion()){
+                //code to get suggestion
+                //or create a method and call it here
+            } else {
+                askAgain();
+            }
         }
     }
 
@@ -92,16 +97,12 @@ public class MarvelMovie {
         }
     }
 
-    public static void askForSuggestion(String current, String suggestion, String question, TreeNode currentNode){
-        if(askYesNo("Maybe you would enjoy: " + current + ". Is this satisfactory?")){
-            System.out.println("Suggestion: ");
-            suggestion = new Scanner(System.in).nextLine();
-
-            System.out.println("Question for Suggestion: ");
-            question = new Scanner(System.in).nextLine();
-
-            currentNode.value = question;
-            currentNode.left.setValue(suggestion);
+    public static boolean wantsSuggestion(){
+        //TODO
+        if(askYesNo("")){
+            return true;
+        } else {
+            return false;
         }
     }
 }
