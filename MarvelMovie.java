@@ -48,6 +48,21 @@ public class MarvelMovie {
 
     }
 
+    private static void takeSuggestion() {
+        System.out.println("Enter a suggestion: ");
+        String suggestion = new Scanner(System.in).nextLine();
+
+        System.out.println("Enter a question for the suggestion: ");
+        String question = new Scanner(System.in).nextLine();
+
+        System.out.println("Enter an answer that is *wrong* for this given suggestion.");
+        String wrong = new Scanner(System.in).nextLine();
+
+        questionOrAnswer = question;
+        currentNode.setLeft(new TreeNode(suggestion));
+        currentNode.setRight(new TreeNode(wrong));
+    }
+
     static boolean askYesNo(String question){
 
         System.out.println(question + " [y/N]");
@@ -67,12 +82,19 @@ public class MarvelMovie {
         currentNode = currentNode.left;
         questionOrAnswer = currentNode.value;
         if(currentNode.isLeaf()){
-            System.out.println(questionOrAnswer);
+            //System.out.println(questionOrAnswer);
             if(wantsSuggestion()){
                 //code to get suggestion
                 //or create a method and call it here
+                takeSuggestion();
             } else {
                 askAgain();
+            }
+
+            System.out.println("Would you like to save the tree? [y/N]");
+            String save = new Scanner(System.in).nextLine();
+            if(save.equals("y")){
+                saveTree();
             }
         }
     }
@@ -92,17 +114,34 @@ public class MarvelMovie {
         currentNode = currentNode.right;
         questionOrAnswer = currentNode.value;
         if(currentNode.isLeaf()){
-            System.out.println(questionOrAnswer);
-            askAgain();
+            //System.out.println(questionOrAnswer);
+            if(wantsSuggestion()){
+                //code to get suggestion
+                //or create a method and call it here
+                takeSuggestion();
+            } else {
+                askAgain();
+            }
+
+            System.out.println("Would you like to save the tree? [y/N]");
+            String save = new Scanner(System.in).nextLine();
+            if(save.equals("y")){
+                saveTree();
+            }
         }
     }
 
     public static boolean wantsSuggestion(){
         //TODO
-        if(askYesNo("")){
+        if(!askYesNo("Is " + currentNode.value + " suitable? ")){
             return true;
         } else {
             return false;
         }
+    }
+
+    public static void saveTree(){
+        TreeNode head = captains;
+        head.print();
     }
 }
