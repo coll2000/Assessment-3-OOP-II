@@ -1,5 +1,9 @@
 package Ass3;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class TreeNode {
     String value;
     TreeNode left;
@@ -59,6 +63,22 @@ public class TreeNode {
         else {
             return "Value: " + this.value;
         }
+    }
+
+    public void print(){
+        try(BufferedWriter bf = new BufferedWriter(new FileWriter("C:\\Users\\collo\\eclipse-workspace\\OOPAndSuch\\src\\Ass3\\suggestions.txt"))){
+            bf.newLine();
+            bf.write(this.value);
+            if(this.left != null){
+                this.left.print();
+            }
+            if(this.right != null){
+                this.right.print();
+            }
+        } catch(IOException e){
+            System.out.println(e);
+        }
+
 
     }
 
