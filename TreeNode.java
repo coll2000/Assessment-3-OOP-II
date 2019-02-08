@@ -1,8 +1,6 @@
 package Ass3;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class TreeNode {
     String value;
@@ -65,20 +63,34 @@ public class TreeNode {
         }
     }
 
-    public void print(){
-        try(BufferedWriter bf = new BufferedWriter(new FileWriter("C:\\Users\\collo\\eclipse-workspace\\OOPAndSuch\\src\\Ass3\\suggestions.txt"))){
-            bf.newLine();
-            bf.write(this.value);
-            if(this.left != null){
-                this.left.print();
-            }
-            if(this.right != null){
-                this.right.print();
-            }
+    public void print(BufferedWriter bw){
+
+        try{
+            bw.write(this.value);
+            bw.newLine();
         } catch(IOException e){
-            System.out.println(e);
+            e.printStackTrace();
+        } finally{
+            System.out.println(this.value);
         }
 
+        if (this.left != null) {
+            this.left.print(bw);
+        }
+        if (this.right != null) {
+            this.right.print(bw);
+        }
+    }
+
+    public static void fromPreorder(){
+        String current;
+        try{
+            //Change directory in NoMachine
+            BufferedReader br = new BufferedReader(new FileReader(new File("src/Ass3/suggestions.txt")));
+            current = br.readLine();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
 
     }
 
