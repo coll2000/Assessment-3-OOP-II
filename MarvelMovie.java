@@ -1,5 +1,6 @@
 package Ass3;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class MarvelMovie {
@@ -132,7 +133,6 @@ public class MarvelMovie {
     }
 
     public static boolean wantsSuggestion(){
-        //TODO
         if(!askYesNo("Is " + currentNode.value + " suitable? ")){
             return true;
         } else {
@@ -140,8 +140,18 @@ public class MarvelMovie {
         }
     }
 
-    public static void saveTree(){
+    public static void saveTree() {
         TreeNode head = captains;
-        head.print();
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File("src/Ass3/suggestions.txt")));
+            head.print(bw);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    public static void fromPreorder(){
+    }
+
 }
